@@ -1,0 +1,9 @@
+
+# My storage txt files #
+briw/src/_store
+*.txt
+
+# Random files/directories #
+.DS_Store
+.vscode
+briw/__pycache__
