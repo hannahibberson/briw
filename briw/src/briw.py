@@ -44,4 +44,3 @@ def main():
         screen.clear()
 
 main()
-

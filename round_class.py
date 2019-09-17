@@ -30,7 +30,7 @@ class Round:
         for drink_type, drinks in self.get_drinks().items():
             print(f"{drink_type.capitalize()}:")
             for drink, count in drinks.items():
-                print(count,drink.capitalize())
+                print(count,drink.name.capitalize())
         print("-----------------------\n")
         self.people = [self.owner]
         self.totalRounds += 1
