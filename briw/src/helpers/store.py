@@ -1,62 +1,77 @@
+# TODO: re-do this file and consider what we want to store and how we want to store it 
+#   (i.e. probably best to be a module not a class? otherwise how do we only keep one store and get it between the functions?)
 class Store:
     def __init__(self):
         # pull in stuff from files
+        self.people = []
+        self.drinks = []
+        self.preferences = []
 
-    def get_people():
+    def get_people(self):
         return self.people
 
-    def get_active_people():
+    def get_active_people(self):
         tmp = {}
-        for uuid, user_info in getPeople():
+        for uuid, user_info in self.get_people():
             if user_info["isActive"] == True:
                 tmp[uuid] = user_info
         return tmp
 
-    def getPerson(uuid):
-        return getPeople()[uuid]
+    def getPerson(self,uuid):
+        return self.get_people()[uuid]
 
-    def getPersonName(uuid):
-        return getPerson(uuid)["name"]
+    def getPersonName(self,uuid):
+        return self.getPerson(uuid)["name"]
 
-    def getFavourites(uuid):
-        return getPerson(uuid)["favourites"]
+    def getFavourites(self,uuid):
+        return self.getPerson(uuid)["favourites"]
 
-    def getUserUuids(name):
-        return getUuids(name, getPeople())
+    def getUserUuids(self,name):
+        return self.getUuids(name, self.get_people())
 
-    def getDrinks():
-        return store["drinks"]
+    def getDrinks(self):
+        return self.drinks
 
-    def getDrink(uuid):
-        return getDrinks()[uuid]
+    def getDrink(self,uuid):
+        return self.getDrinks()[uuid]
 
-    def getDrinkName(uuid):
-        return getDrink(uuid)["name"]
+    def getDrinkName(self,uuid):
+        return self.getDrink(uuid)["name"]
 
-    def getDrinkUuids(name):
-        return getUuids(name, getDrinks())
+    def getDrinkUuids(self,name):
+        return self.getUuids(name, self.getDrinks())
         
-    def getUuids(name,array):
+    def getUuids(self,name,array):
         uuids = []
         for uuid, info in array:
             if info["name"] == name:
                 uuids.append(uuid)
         return uuids
 
-    def setPeople(people):
-        store["people"] = people
+    def setPeople(self,people):
+        self.people = people
 
-    def setPerson(uuid,person):
-        store["people"][uuid] = person
+    def setPerson(self,uuid,person):
+        self.people[uuid] = person
 
-    def setPersonFavourites(uuid,favourites):
-        store["people"][uuid]["favourites"] = favourites
+    def remove_person(self, uuid):
+        # Remove a person
+        # Will also need to remove them from preferences
+        pass
 
-    def setPersonInactive(uuid):
-        store["people"][uuid]["isActive"] = False
+    def setPersonFavourites(self,uuid,favourites):
+        self.people[uuid]["favourites"] = favourites
 
-    def setDrinks(drinks):
-        store["drinks"] = drinks
+    def setPersonInactive(self,uuid):
+        self.people[uuid]["isActive"] = False
 
-    def setDrink(uuid,drink):
-        store["drinks"][uuid] = drink
+    def setDrinks(self,drinks):
+        self.drinks = drinks
+
+    def setDrink(self,uuid,drink):
+        self.drinks[uuid] = drink
+
+    def removeDrink(self,drink_id):
+        # Remove a drink
+        # Will also need to remove them from preferences 
+        pass

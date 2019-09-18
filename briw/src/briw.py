@@ -1,9 +1,4 @@
-import helpers.edit_lists as edit_lists
-import helpers.favourites as favourites
-import helpers.strings as strings
-import helpers.screen as screen
-import helpers.files as files
-import helpers.user_input as user_input
+from helpers import *
 
 def main():
     screen.clear()

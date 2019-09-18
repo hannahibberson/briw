@@ -6,4 +6,5 @@ briw/src/_store
 # Random files/directories #
 .DS_Store
 .vscode
-briw/__pycache__
+**/__pycache__
+*.pyc
