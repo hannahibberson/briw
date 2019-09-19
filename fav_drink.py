@@ -12,7 +12,9 @@ def main():
     while True:
         main_menu, help_menu = dynamicMenu()
         printMenu(main_menu, "main")
-        command = get_command()
+        
+        menu_length = len(main_menu)
+        command = get_command(menu_length)
         command_string = main_menu[command-1]
         if command_string == strings.exit_:
             os.system("clear")
@@ -97,13 +99,16 @@ def dynamicMenu():
     help_items.extend([strings.help_help, strings.exit_help])
     return menu_items, help_items
 
-def get_command():
+def get_command(menu_length):
     command = input("\nOption number: ")
     try:
-        return int(command)
+        command = int(command)
+        if command > menu_length:
+            raise ValueError()
+        return command
     except:
         print("Please enter an integer value from the list above.")
-        return get_command()
+        return get_command(menu_length)
 
 def printMenu(menu_items, menu_type):
     if menu_type == "help":
