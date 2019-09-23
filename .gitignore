@@ -3,6 +3,9 @@
 briw/src/_store
 *.txt
 
+# My secret stuff #
+briw/src/helpers/_db_connect.py
+
 # Random files/directories #
 .DS_Store
 .vscode
