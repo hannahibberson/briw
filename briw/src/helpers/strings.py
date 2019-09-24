@@ -1,36 +1,23 @@
-menu_context = "Hello! What do you want to do today?"
-get_people = "Show the list of people"
-get_drinks = "Show the list of drinks"
-favourites = "View or edit the list of people's favourite drinks"
-edit_people = "Edit the list of people"
-edit_drinks = "Edit the list of available drinks"
+main_menu_context = "Hello! What do you want to do today?"
+people_menu = "View and edit registered users"
+drinks_menu = "View and edit the available drinks list"
+favourites_menu = "View or edit the registered users' favourite drinks"
+rounds_menu = "Start a round, or join an existing round."
 get_help = "I need help"
 exit_ = "Exit"
 
-help_context = "I store information about people and their favourite drinks, and through this menu you can see those lists and add new people and drinks!"
-get_people_help = "You can be shown a list of all the people we have stored"
-get_drinks_help = "You can be shown a list of all the favourite drinks we have stored"
-favourites_help = "Assign each name with a favourite drink so you always know what to get people!"
-edit_people_help = "Add or remove people from the list of people"
-edit_drinks_help = "Add or remove people from the list of drinks"
+help_menu_context = "Here's some information about the different main menu options:"
+people_help = "You can see all the registered people, as well as add and remove people from the list of registered team members."
+drinks_help = "View the list of available drinks, and add and remove drinks when your stock changes."
+favourites_help = "Ensure that each registered user is assigned a favourite drink so that they can join rounds easily."
+rounds_help = "Setup a new round and allow people to join and request their favourite drinks."
 help_help = "That's what got you here!"
-exit_help = "Exit this menu and continue with your day"
+exit_help = "Exit this application and continue with your day"
 
-menu_return = "Press 'enter' to return to the main menu."
+menu_return = "Return to the main menu."
+menu_return_enter = "Press 'enter' to return to the main menu."
 
-def list_add(title):
-    return f"""
-ADDING NEW {title.upper()}
---------------------
-Please enter your list separated by commas. For example:
-    a, b, c
-To make no changes, please respond with 'quit'.
-    """
-def list_remove(title):
-    return f"""
-REMOVING {title.upper()}
---------------------
-Please enter a list of id codes of {title.lower()} you would like to remove, separated by commas. For example:
-    a, b, c
-To make no changes, please respond with 'quit'.
-    """
+people_menu_context = "People options:"
+show_people = "Show the list of registered users."
+add_people = "Add new people to the list of users."
+remove_people = "Remove people from the list of users."
