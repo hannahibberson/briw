@@ -1,0 +1,88 @@
+:root {
+    --inf-black: #22272c;
+    --inf-orange: #d14409;
+    --inf-orange-lighter: #e7875e;
+}
+
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: var(--inf-black);
+}
+
+.briw-icon {
+    stroke: white;
+}
+
+.page-content {
+    width: 80%;
+    margin-left: 10%;
+}
+
+.page-content .page-content-container {
+    margin: 10px 0px;
+}
+
+.page-content .page-header {
+    padding: 20px 10px 20px 10px;
+    text-align: center;
+    color: white;
+    font-size: 150%;
+}
+
+p.header-element {
+    display: inline-block;
+    word-wrap: wrap;
+    margin: 0;
+    vertical-align: center;
+}
+
+.briw-title {
+    font-size: 300%;
+}
+
+.briw-iw {
+    color: var(--inf-orange);
+}
+
+.page-content .page-body {
+    color: var(--inf-black);
+    background-color: white;
+    font-size: 100%;
+    padding: 2% 5%;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.page-body .example-image {
+    width: 50%;
+    background-color: black;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.home-image {
+    width: 80%;
+    min-width: 300px;
+}
+
+body a, body a:visited {
+    color: var(--inf-orange);
+}
+body a:hover, body a:hover:visited{
+    color: var(--inf-orange-lighter);
+}
+
+.github-breaker {
+    width: 100px;
+}
+.github-breaker:hover {
+    cursor: pointer;
+}
+
+.bookmarks-section {
+    text-align: left;
+}
+
+.instruction-header {
+    color: var(--inf-orange);
+}
