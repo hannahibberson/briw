@@ -1,7 +1,7 @@
-import briw.src.helpers.database_base as db
+import src.helpers.database_base as db
 
 def _insert_preference_row(person_id: int, drink_name: str):
-    values_string = f"({person_id},{drink_name})"
+    values_string = f'({person_id},"{drink_name}")'
     query = "INSERT INTO preferences (person_id,drink_name) VALUES" + values_string
     db._insert_row(query)
 
@@ -19,7 +19,7 @@ def get_preferences():
 
 def get_preference(person_id:int):
     try:
-        query = "SELECT drink_name FROM preferences WHERE person_id =",person_id
+        query = "SELECT drink_name FROM preferences WHERE person_id="+str(person_id)
         results = db._query_database(query)
         if len(results) == 1:
             drink_name = results[0][0]
@@ -31,3 +31,4 @@ def get_preference(person_id:int):
 
 def add_preference(person_id:int, drink_name:str):
     _insert_preference_row(person_id, drink_name)
+

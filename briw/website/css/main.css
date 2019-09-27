@@ -1,5 +1,6 @@
 :root {
     --inf-black: #22272c;
+    --inf-black-darker: #111416;
     --inf-orange: #d14409;
     --inf-orange-lighter: #e7875e;
 }
@@ -49,8 +50,9 @@ p.header-element {
     background-color: white;
     font-size: 100%;
     padding: 2% 5%;
-    border-radius: 10px;
+    border-radius: 15px;
     text-align: center;
+    box-shadow: 0px 0px 20px 20px var(--inf-black-darker);
 }
 
 .page-body .example-image {

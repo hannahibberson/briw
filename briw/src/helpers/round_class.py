@@ -1,15 +1,19 @@
-from briw.src.helpers.person_class import Person
-from briw.src.helpers.drink_class import Drink
+'''
+from src.helpers.person_class import Person
+from src.helpers.drink_class import Drink
 
-import briw.src.helpers.database_preference as preference_db
-import briw.src.helpers.database_drink as drink_db
+import src.helpers.database_preference as preference_db
+import src.helpers.database_drink as drink_db
+'''
 
 class Round:
-    active = False
-    def __init__(self, owner: Person):
-        self.owner = owner
-        self.people = [owner]
+    def __init__(self, id: int, owner_id: int, active: bool, orders):
+        self.id = id
+        self.owner_id = owner_id
+        self.active = active
+        self.orders = orders
 
+'''
     def start(self):
         print("A new round has started!")
         self.active = True
@@ -34,7 +38,7 @@ class Round:
             for drink, count in drinks.items():
                 print(drink.name.capitalize(),'-',count)
         print("-----------------------\n")
-        self.people = [self.owner]
+        self.people = []
 
     def get_drinks(self):
         drinks = {}
@@ -51,3 +55,4 @@ class Round:
             except:
                 print("Couldn't fetch this preference.")
         return drinks
+'''

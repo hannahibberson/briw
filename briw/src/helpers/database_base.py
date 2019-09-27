@@ -1,5 +1,5 @@
 import pymysql
-import briw.src.helpers._db_connect as db
+import src.helpers._db_connect as db
 from os import environ
 
 def _connect_to_database():
@@ -20,6 +20,9 @@ def _query_database(query: str, returns_result: bool = True):
     cursor.execute(query)
     if returns_result == True:
         results = cursor.fetchall()
+        print(results)
+    else:
+        db.commit()
     db.close()
     if returns_result == True:
         return results

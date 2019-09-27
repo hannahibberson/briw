@@ -1,5 +1,5 @@
-import briw.src.helpers.strings as strings
-from briw.src.helpers.menu_base import *
+import helpers.strings as strings
+from helpers.menu_base import *
 
 class HelpMenu(Menu):
     def __init__(self):

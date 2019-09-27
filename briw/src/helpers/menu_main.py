@@ -1,7 +1,7 @@
-import briw.src.helpers.strings as strings
-from briw.src.helpers.menu_base import Menu, MenuOption
-from briw.src.helpers.menu_help import HelpMenu
-from briw.src.helpers.menu_people import PeopleMenu
+import helpers.strings as strings
+from helpers.menu_base import Menu, MenuOption
+from helpers.menu_help import HelpMenu
+from helpers.menu_people import PeopleMenu
 
 class PeopleOption(MenuOption):
     def __init__(self):

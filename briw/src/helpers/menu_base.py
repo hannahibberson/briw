@@ -1,5 +1,5 @@
-import briw.src.helpers.user_input as u_input
-import briw.src.helpers.strings as strings
+import helpers.user_input as u_input
+import helpers.strings as strings
 
 class MenuOption:
     def __init__(self, text, enabled=True):
@@ -34,7 +34,7 @@ class Menu:
         option_list = self.get_active_items()
         for option in option_list:
             list_number = option_list.index(option) + 1
-            option_text = self.options[option].text
+            option_text = option.text
             print(" ",list_number,option_text)
         print()
 
@@ -49,7 +49,7 @@ class Menu:
             return False
 
     def get_option(self):
-        option_number = u_input.user_input(self.option_input_validation, "Option: ")
+        option_number = int(u_input.user_input(self.option_input_validation, "Option: "))
         option = self.get_active_items()[option_number-1]
         return option
     
