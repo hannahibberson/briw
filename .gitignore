@@ -11,3 +11,5 @@ briw/src/helpers/_db_connect.py
 .vscode
 **/__pycache__
 *.pyc
+**/.pytest_cache
+**/.coverage

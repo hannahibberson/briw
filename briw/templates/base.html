@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}"/>
+    </head>
+    <body>
+        <div class="page-content">
+            <div class="page-header page-content-container">
+                <p class="briw-title header-element">Br<span class="briw-iw">IW</span></p>
+                <p class="header-element">An application to manage tea rounds.</p>
+            </div>
+            <div class="page-body page-content-container">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </body>
+</html>

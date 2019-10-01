@@ -1,0 +1,127 @@
+:root {
+    --inf-black: #22272c;
+    --inf-black-darker: #111416;
+    --inf-orange: #d14409;
+    --inf-orange-lighter: #e7875e;
+    --inf-orange-darker: #bb3e08;
+}
+
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: var(--inf-black);
+}
+
+.page-content {
+    max-width: 60%;
+    margin: auto;
+    padding: 20px;
+}
+
+.page-content .page-header {
+    padding: 20px 10px 20px 10px;
+    text-align: center;
+    color: white;
+    font-size: 150%;
+}
+
+p.header-element {
+    display: inline-block;
+    word-wrap: wrap;
+    margin: 0;
+    vertical-align: center;
+}
+
+.briw-title {
+    font-size: 300%;
+}
+
+.briw-iw {
+    color: var(--inf-orange);
+}
+
+.page-content .page-body {
+    color: var(--inf-black);
+    background-color: white;
+    font-size: 100%;
+    padding: 2% 5%;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0px 0px 20px 20px var(--inf-black-darker);
+}
+
+.form-input-container {
+    height:45px;
+}
+
+.form-container .form-input {
+    min-width: 70%;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    display: block;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.form-input.error-input {
+    background-color: #e381812e;
+    border-color: #ab0707;
+}
+
+.error-text {
+    visibility: hidden;
+    color: #ab0707;
+    min-width: 80%;
+}
+
+.form-input-length-label {
+    visibility: hidden;
+    color: #ab0707;
+    position: relative;
+    right: -43%;
+    top: -50px;
+}
+
+.form-container .form-input:first-of-type {
+    margin-top: 20px;
+}
+
+.form-container .form-button {
+    background-color: white;
+    color: var(--inf-orange);
+    padding: 15px 30px;
+    display: inline-block;
+    margin: 10px;
+    border: 2px solid var(--inf-orange);
+    font-size: 1em;
+    border-radius: 5px;
+}
+
+.form-container .form-button:hover {
+    cursor: pointer;
+    color: white;
+    background-color: var(--inf-orange);
+}
+
+.form-container .form-button.form-cancel {
+    background-color: white;
+    border: 2px solid darkgray;
+    color: gray;
+}
+
+.form-container .form-button.form-cancel:hover {
+    color: white;
+    background-color: lightgray;
+    border-color: lightgray;
+}
+
+body a, body a:visited {
+    color: var(--inf-orange);
+}
+body a:hover, body a:hover:visited{
+    color: var(--inf-orange-lighter);
+}
+
+.welcome-title {
+    overflow-wrap: break-word;
+}

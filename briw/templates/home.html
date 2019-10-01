@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %} BrIW | Home {% endblock %}
+
+{% block content %}
+    <div>
+        <h2 class="welcome-title"> Welcome {{ person.name.title() }}!</h2>
+        <h4 class="welcome-subtitle"> What would you like to do today?</h4>
+        {% if favourite %}
+            <form id="home-options-form"  method="post">
+                {% if active_round %}
+                    <input id="home-option-submit" type="submit" value="Join the active round">
+                {% endif %}
+                <input id="home-option-submit" type="submit" value="Start a round">
+                <br/>
+                <input id="home-option-submit" type="submit" value="Change your drink preference">
+                <br/>
+                <p>View and edit the information lists:</p>
+                <input id="home-option-submit" type="submit" value="Registered users">
+                <input id="home-option-submit" type="submit" value="Available drinks">
+                <input id="home-option-submit" type="submit" value="User preferences">
+            </form>
+        {% else %}
+            <div>You need to add a favourite drink</div>
+        {% endif %}
+    </div>
+{% endblock %}

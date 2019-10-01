@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %} BrIW | Login {% endblock %}
+
+{% block content %}
+    <div>
+        <form class="form-container" id="login-person-form"  method="post">
+            <p id="invalid-input-error" class="error-text">Invalid input. Your entry must contain at least one letter, be no longer than 100 characters, and it cannot contain any of: ' " ; / \.</p>
+            <div class="form-input-container">
+                <input class="form-input" id="first_name_input" type="text" name="first_name" placeholder="First name" required/>
+                <label class="form-input-length-label" for="first_name_input" id="first_name_input_length"></label>
+            </div>
+            <div class="form-input-container">
+                <input class="form-input" id="surname_input" type="text" name="surname" placeholder="Surname" required/>
+                <label class="form-input-length-label" for="surname_input" id="surname_input_length"></label>
+            </div>
+            <div class="form-input-container">
+                <input class="form-input" id="slack_id_input" type="text" name="slack_id" placeholder="Slack ID" required/>
+                <label class="form-input-length-label" for="slack_id_input" id="slack_id_input_length"></label>
+            </div>
+            <button class="form-button" id="user_form_submit" type="submit">Log in</button>
+        </form>
+    </div>
+    <script>
+        function validString(string) {
+            if (!isNaN(string) || string.includes('/') || string.includes('\\') || string.includes('"') || string.includes('\'') || string.includes(';') || string.length > 100) {
+                return false
+            } else {
+                return true
+            }
+        }
+        function inputValidation(event) {
+            const first_name = document.getElementById('first_name_input').value
+            const surname = document.getElementById('surname_input').value
+            const slack_id = document.getElementById('slack_id_input').value
+            strings = {first_name_input:first_name, surname_input:surname, slack_id_input:slack_id}
+            let valid = true
+            Object.keys(strings).forEach(function(id) {
+                let element = document.getElementById(id)
+                let label = document.getElementById(id+'_length')
+                if (validString(strings[id]) == false) {
+                    valid = false
+                    element.classList.add('error-input')
+                    if (strings[id].length > 100) {
+                        label.style.visibility = 'visible'
+                        label.innerHTML = "("+strings[id].length+")"
+                    } else {
+                        label.style.visibility = 'hidden'
+                    }
+                } else {
+                    element.classList.remove('error-input')
+                    label.style.visibility = 'hidden'
+                }
+            });
+            if (valid == false) {
+                document.getElementById('invalid-input-error').style.visibility='visible';
+            } else {
+                document.getElementById('invalid-input-error').style.visibility='hidden';
+            }
+        }
+        document.getElementById('user_form_submit').addEventListener('click',inputValidation)
+    </script>
+{% endblock %}

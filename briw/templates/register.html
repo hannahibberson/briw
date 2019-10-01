@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %} BrIW | Register {% endblock %}
+
+{% block content %}
+    <div>
+        <p>{{ first_name.capitalize() }}, you're not currently registered. Would you like to register to use BrIW?</p>
+        <form class="form-container" id="register-form"  method="post">
+            <input class="form-button form-cancel" id="register_form_cancel" name="submit_button" type="submit" value="Cancel"/>
+            <input class="form-button" id="register_form_submit" name="submit_button" type="submit" value="Register"/>
+        </form>
+    </div>
+{% endblock %}
