@@ -9,6 +9,8 @@
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     background-color: var(--inf-black);
+    word-wrap: wrap;
+    overflow-wrap: break-word;
 }
 
 .page-content {
@@ -26,7 +28,6 @@ body {
 
 p.header-element {
     display: inline-block;
-    word-wrap: wrap;
     margin: 0;
     vertical-align: center;
 }
@@ -120,8 +121,4 @@ body a, body a:visited {
 }
 body a:hover, body a:hover:visited{
     color: var(--inf-orange-lighter);
-}
-
-.welcome-title {
-    overflow-wrap: break-word;
 }
