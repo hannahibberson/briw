@@ -4,9 +4,11 @@ Tea and coffee and other drinks.
 Please note: This is a mass of code, most of which is no longer of any use. Proceed with caution!
 
 ### To run the program
-In the root directory run:```python3 flask_handler.py```
+In the root directory run:
 
-Navigate to localhost:8000 and you'll be greeted with a login page. Once you've logged in (and possibly registered), you will be able to add your favourite drink, then start new rounds with your friends and colleagues.
+```python3 flask_handler.py```
+
+Navigate to `localhost:8000` and you'll be greeted with a login page. Once you've logged in (and possibly registered), you will be able to add your favourite drink, then start new rounds with your friends and colleagues.
 
 ### Contributing
 Please contribute, it's fun! Just submit a pull-request and I'll have a look. Just __beware__, everything is a bit crazy and unorganised.
