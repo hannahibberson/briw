@@ -69,10 +69,9 @@
                 }
             }
             var currentFocus;
-            input.addEventListener("input", function(e) {
+            function inputAutocomplete (e) {
                 var a, b, i, val = this.value;
                 closeAllLists();
-                if (!val) { return false;}
                 currentFocus = -1;
                 a = document.createElement("DIV");
                 a.setAttribute("id", this.id + "autocomplete-list");
@@ -90,7 +89,7 @@
                     drinks[i] = drink
                 }
                 for (drink of drinks ){
-                    if (drink.toLowerCase().includes(val.toLowerCase())) {
+                    if (drink.toLowerCase().includes(val.toLowerCase()) || val.length == 0) {
                         b = document.createElement("DIV");
                         b.innerHTML = drink
                         b.innerHTML += "<input type='hidden' value='" + drink + "'>";
@@ -106,7 +105,9 @@
                         a.style.visibility = 'visible'
                     }
                 }
-            })
+            }
+            input.addEventListener('click',inputAutocomplete)
+            input.addEventListener('input',inputAutocomplete)
             input.addEventListener("keydown", function(e) {
                 var x = document.getElementById(this.id + "autocomplete-list");
                 if (x) x = x.getElementsByTagName("div");
