@@ -41,9 +41,8 @@ def get_person_by_id(person_id:int):
 def get_person_by_names(first_name:str,surname:str,slack_id:str):
     try:
         query = f'SELECT * FROM people WHERE first_name="{first_name}" AND surname="{surname}" AND slack_id="{slack_id}"'
-        print(query)
         results = db._query_database(query)
-        if len(results) == 1:
+        if len(results) > 0:
             person = _parse_person_row(results[0])
             return person
         else:

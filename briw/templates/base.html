@@ -6,13 +6,16 @@
     </head>
     <body>
         <div class="page-content">
-            <div class="page-header page-content-container">
+            <div class="page-header page-content-container"><a href="/" class="no-styling">
                 <p class="briw-title header-element">Br<span class="briw-iw">IW</span></p>
                 <p class="header-element">An application to manage tea rounds.</p>
-            </div>
+            </a></div>
             <div class="page-body page-content-container">
                 {% block content %}{% endblock %}
             </div>
+            <div class="page-footer page-content-container"><a class="no-styling" href="https://github.com/hannahroyal/briw">
+                <img class="small-icon" src="{{ url_for('static', filename='images/github.png') }}">
+            </a></div>
         </div>
     </body>
 </html>

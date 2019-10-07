@@ -20,7 +20,6 @@ def _query_database(query: str, returns_result: bool = True):
     cursor.execute(query)
     if returns_result == True:
         results = cursor.fetchall()
-        print(results)
     else:
         db.commit()
     db.close()

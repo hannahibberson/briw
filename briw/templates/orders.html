@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %} BrIW | Orders {% endblock %}
+
+{% block content %}
+    <div>
+        <p>Final order list:</p>
+        <ul id="order-list">
+            {% for order in orders %}
+                <li>{{order.drink_name}} for {{order.person_name}}</li>
+            {% endfor %}
+        </ul>
+        <br/>
+        <a href="/home/{{person_id}}">Return home</a>
+    </div>
+
+{% endblock %}

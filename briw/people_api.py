@@ -29,5 +29,4 @@ def get_person_by_names(query_string):
 
 def add_person(data):
     person = Person(data["first_name"], data["surname"], data["slack_id"])
-    print(person.name)
     person_db.add_person(person)

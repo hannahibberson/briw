@@ -11,5 +11,5 @@ def get_drink(drink_name):
         raise Exception("Not a valid drink name.")
 
 def add_drink(data):
-    drink = Drink(data["drink_name"], data["drink_type"])
+    drink = Drink(data["drink_name"])
     drink_db.add_drink(drink)

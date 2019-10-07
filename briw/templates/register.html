@@ -4,7 +4,15 @@
 
 {% block content %}
     <div>
-        <p>{{ first_name.capitalize() }}, you're not currently registered. Would you like to register to use BrIW?</p>
+        <p>{{ first_name.title() }}, you're not currently registered. Would you like to register to use BrIW?</p>
+        <br/>
+        <p>Your details:</p>
+        <table class="user-register-details">
+            <tr><td class="table-title">First name(s):</td><td>{{ first_name.title() }}</td></tr>
+            <tr><td class="table-title">Surname:</td><td>{{ surname.capitalize() }}</td></tr>
+            <tr><td class="table-title">Slack ID:</td><td>{{ slack_id }}</td></tr>
+        </table>
+        <br/>
         <form class="form-container" id="register-form"  method="post">
             <input class="form-button form-cancel" id="register_form_cancel" name="submit_button" type="submit" value="Cancel"/>
             <input class="form-button" id="register_form_submit" name="submit_button" type="submit" value="Register"/>

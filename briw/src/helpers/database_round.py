@@ -29,6 +29,18 @@ def get_active_round():
     try:
         query = "SELECT * FROM rounds WHERE active=1"
         results = db._query_database(query)
+        if len(results) > 0:
+            active_round = _parse_round_row(results[0])
+            return active_round
+        else:
+            print("There was no active round found.")
+    except:
+        print("Connection Error.")
+
+def get_round_by_id(round_id:int):
+    try:
+        query = "SELECT * FROM rounds WHERE round_id="+str(round_id)
+        results = db._query_database(query)
         if len(results) == 1:
             active_round = _parse_round_row(results[0])
             return active_round

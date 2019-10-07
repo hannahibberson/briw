@@ -5,23 +5,104 @@
 {% block content %}
     <div>
         <h2 class="welcome-title"> Welcome {{ person.name.title() }}!</h2>
-        <h4 class="welcome-subtitle"> What would you like to do today?</h4>
-        {% if favourite %}
-            <form id="home-options-form"  method="post">
-                {% if active_round %}
-                    <input id="home-option-submit" type="submit" value="Join the active round">
-                {% endif %}
-                <input id="home-option-submit" type="submit" value="Start a round">
+        <form id="home-options-form" class="form-container" method="POST">
+            {% if favourite %}
+                <p>Your drink of choice is: {{ favourite }}</p>
+                <div id="home-order-data" class="home-order-data">
+                    <p><b>Current orders:</b></p>
+                    <ul id="order-list-home"></ul>
+                    <input class="home-option-submit form-button" id="home-option-round-end" type="submit" name="submit_button" value="End the round"/>
+                </div>
+                <div id="round-actions">
+                    <input class="home-option-submit form-button" id="home-option-round-join" type="submit" name="submit_button"/>
+                    <input class="home-option-submit form-button" id="home-option-round-start" type="submit" name="submit_button" value="Start a round"/>
+                </div>
                 <br/>
-                <input id="home-option-submit" type="submit" value="Change your drink preference">
-                <br/>
-                <p>View and edit the information lists:</p>
-                <input id="home-option-submit" type="submit" value="Registered users">
-                <input id="home-option-submit" type="submit" value="Available drinks">
-                <input id="home-option-submit" type="submit" value="User preferences">
-            </form>
-        {% else %}
-            <div>You need to add a favourite drink</div>
-        {% endif %}
+            {% else %}
+                <p>You need to add a drink preference before you can place an order.</p>
+            {% endif %}
+            <input class="home-option-submit form-button" id="home-option-preference" type="submit" name="submit_button" value="Edit drink preference"/>
+        </form>
     </div>
+    <script>
+        function enableDisableOptions (enabled_id, disabled_id) {
+            disabled_elem = document.getElementById('home-option-round-'+disabled_id)
+            disabled_elem.classList.add('form-disabled')
+            disabled_elem.disabled = true
+            enabled_elem = document.getElementById('home-option-round-'+enabled_id)
+            enabled_elem.classList.remove('form-disabled')
+            enabled_elem.disabled = false
+        }
+        function capitalize (string) {
+            words = string.split(' ')
+            new_words = []
+            for (word of words) {
+                first_letter = word.slice(0,1)
+                end_of_word = word.slice(1)
+                new_word = first_letter.toUpperCase() + end_of_word
+                new_words.push(new_word)
+            }
+            new_string = new_words.join(' ')
+            return new_string
+        }
+        function refreshOrders() {
+            const xhr = new XMLHttpRequest()
+            xhr.open("GET", '/active-round', false)
+            xhr.onload = function(event) {
+                let round = xhr.responseText
+                if (round.includes('active')) {
+                    round = JSON.parse(round)
+                    let owner_id = round.owner_id
+                    let orders = round.orders
+                    preferenceOption = document.getElementById('home-option-preference')
+                    if (owner_id == '{{ person.person_id }}') {
+                        document.getElementById('home-order-data').style.display = 'inline-block'
+                        document.getElementById('round-actions').style.display = 'none'
+                        preferenceOption.classList.add('form-disabled')
+                        preferenceOption.disabled = true
+                    } else {
+                        document.getElementById('home-order-data').style.display = 'none'
+                        document.getElementById('round-actions').style.display = 'inline-block'
+                        preferenceOption.classList.remove('form-disabled')
+                        preferenceOption.disabled = false
+                    }
+                    enableDisableOptions('join','start')
+                    orderList = document.getElementById('order-list-home')
+                    nodes = []
+                    for (order of orders) {
+                        drink = capitalize(order.drink_name)
+                        li = '<li>'+drink+'</li>'
+                        nodes.push(li)
+                    }
+                    nodesString = nodes.join('')
+                    orderList.innerHTML = nodesString
+                    xhr.open("GET", '/person?id='+owner_id, false)
+                    xhr.onload = function (event) {
+                        owner = JSON.parse(xhr.responseText)
+                        for (order of orders) {
+                            if (order.person_id == '{{ person.person_id }}') {
+                                join_option = document.getElementById('home-option-round-join')
+                                join_option.disabled = true
+                                join_option.classList.add('form-disabled')
+                                join_button_text = 'You\'ve joined '+capitalize(owner.name)+'\'s round'
+                            } else {
+                                join_button_text = 'Join '+capitalize(owner.name)+'\'s round'
+                            }
+                            document.getElementById('home-option-round-join').setAttribute('value', join_button_text)
+                        }
+                    }
+                    xhr.send(null)
+                } else {
+                    document.getElementById('home-order-data').style.display = 'none'
+                    document.getElementById('round-actions').style.display = 'inline-block'
+                    document.getElementById('home-option-preference').style.display = 'inline-block'
+                    enableDisableOptions('start','join')
+                    document.getElementById('home-option-round-join').setAttribute('value', "No round to join")
+                }
+            }
+            xhr.send(null)
+        }
+        refreshOrders()
+        setInterval(refreshOrders,2000)
+    </script>
 {% endblock %}

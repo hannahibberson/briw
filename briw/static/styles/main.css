@@ -104,7 +104,7 @@ p.header-element {
     background-color: var(--inf-orange);
 }
 
-.form-container .form-button.form-cancel {
+.form-container .form-button.form-cancel, .form-container .form-button.form-disabled {
     background-color: white;
     border: 2px solid darkgray;
     color: gray;
@@ -116,9 +116,61 @@ p.header-element {
     border-color: lightgray;
 }
 
+.form-container .form-button.form-disabled:hover {
+    cursor: default;
+}
+
+#order-list {
+    width: fit-content;
+    margin: auto;
+}
+
+.user-register-details {
+    margin: auto;
+    text-align: left;
+    border-spacing: 30px 10px;
+}
+
+.user-register-details .table-title {
+    font-weight: 800;
+}
+
+.home-order-data {
+    margin: 10px;
+    padding: 10px;
+    border: 2px solid var(--inf-orange-lighter);
+    border-radius: 5px;
+}
+
+.home-order-data #order-list-home {
+    list-style: none;
+    padding-left: 0;
+}
+
 body a, body a:visited {
     color: var(--inf-orange);
 }
 body a:hover, body a:hover:visited{
     color: var(--inf-orange-lighter);
+}
+
+a.no-styling {
+    color: white !important;
+    text-decoration: none;
+}
+a.no-styling:hover {
+    color: white !important;
+    cursor: pointer;
+}
+
+.page-footer.page-content-container {
+    position: absolute;
+    bottom: 20px;
+    left: 0px;
+    width: 100%;
+    text-align: center;
+}
+
+.page-footer .small-icon{
+    height: 80px;
 }

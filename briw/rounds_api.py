@@ -10,8 +10,12 @@ def get_rounds():
 def get_active_round():
     return handler.get_active_round()
 
+def get_round(id:int):
+    return handler.get_round_by_id(id)
+
 def add_round(data):
     handler.start_round(data["owner_id"])
+    add_order_to_round({'person_id':data["owner_id"]})
 
 def add_order_to_round(data):
     active_round: Round = get_active_round()

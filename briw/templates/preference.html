@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %} BrIW | Drink Preference {% endblock %}
+
+{% block content %}
+    <div>
+        <form class="form-container" id="register-form"  method="post">
+            <p id="invalid-input-error" class="error-text">Invalid input. The drink name cannot be longer than 100 characters, and must contain only letters.</p>
+            <div class="form-input-container">
+                <input class="form-input" id="drink_form_entry" name="drink_form_entry" type="text" placeholder="Drink name"/>
+                <label class="form-input-length-label" for="drink_form_entry" id="drink_form_entry_length"></label>
+            </div>
+            <input class="form-button form-cancel" id="drink_form_cancel" name="submit_button" type="submit" value="Cancel"/>
+            <input class="form-button" id="drink_form_submit" name="submit_button" type="submit" value="Confirm Drink Choice"/>
+        </form>
+    </div>
+    <script>
+        function isLetter(c) {
+            return c.toLowerCase() != c.toUpperCase()
+        }
+        function validDrink(string) {
+            let valid = true
+            for (character of string) {
+                valid = isLetter(character)
+            }
+            return valid
+        }
+        function checkInput() {
+            let element = document.getElementById('drink_form_entry')
+            let label = document.getElementById('drink_form_entry_length')
+            let error_msg = document.getElementById('invalid-input-error')
+            string = element.value
+            let len = string.length
+            if (validDrink(string) == false || len > 100 || len < 1) {
+                element.classList.add('error-input')
+                if (len > 100) {
+                    label.style.visibility = 'visible'
+                    label.innerHTML = "("+len+")"
+                } else {
+                    label.style.visibility = 'hidden'
+                }
+                error_msg.style.visibility = 'visible'
+            } else {
+                element.classList.remove('error-input')
+                label.style.visibility = 'hidden'
+                error_msg.style.visibility = 'hidden'
+            }
+        }
+        document.getElementById('drink_form_submit').addEventListener('click',checkInput)
+    </script>
+
+{% endblock %}

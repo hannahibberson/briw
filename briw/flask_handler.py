@@ -1,8 +1,32 @@
 from flask import Flask, jsonify, render_template, request, redirect, url_for
 
+from src.helpers.person_class import Person
 import people_api, drinks_api, preferences_api, rounds_api
 
 app = Flask(__name__)
+
+def valid_slack_id (string):
+    if string.isdigit() or '/' in string or '\\' in string or '"' in string or '\'' in string or ';' in string:
+        return False
+    else:
+        return True
+
+def is_letter (c):
+    return c.lower() != c.upper()
+
+def valid_string (string):
+    valid = True
+    for character in string:
+        valid = is_letter(character) or character == '-'
+    return valid
+
+def check_input (string, validation_fn):
+    length = len(string)
+    print(validation_fn(string))
+    if validation_fn(string) == False or length > 100:
+        return False
+    else:
+        return True
 
 ### GETS ###
 
@@ -14,31 +38,60 @@ def login_page():
         first_name = request.form.get("first_name").lower()
         surname = request.form.get("surname").lower()
         slack_id = request.form.get("slack_id").lower()
-        values = [first_name, surname, slack_id]
-        for string in values:
-            if string.isdigit() or '/' in string or '\\' in string or ';' in string or '\'' in string or '"' in string or len(string) > 100:
-                return ('', 204)
-        query_string = first_name + '&' + surname + '&' + slack_id
-        person = people_api.get_person_by_names(query_string)
-        if person:
-            return redirect(f"/home/{person.person_id}")
+        strings = [
+                {'string': first_name, 'type': 'name'},
+                {'string': surname, 'type': 'name'},
+                {'string': slack_id, 'type': 'slackID'}
+            ]
+        valid = True
+        for string in strings:
+            validation_fn = valid_slack_id
+            if string["type"]== 'name':
+                validation_fn = valid_string
+            is_valid = check_input(string["string"], validation_fn)
+            if is_valid == False:
+                valid = False
+        print(valid)
+        if valid == True:
+            query_string = first_name + '&' + surname + '&' + slack_id
+            person = people_api.get_person_by_names(query_string)
+            if person:
+                return redirect(f"/home/{person.person_id}")
+            else:
+                return redirect(f"/register/{first_name}/{surname}/{slack_id}")
         else:
-            # Ask if they want to register
-            return redirect(f"/register/{first_name}/{surname}/{slack_id}")
+            return ('', 204)
 
 @app.route('/home')
 def invalid_home_page():
     return redirect("/")
 
-@app.route('/home/<person_id>', methods=['GET','POST'])
+@app.route('/home/<person_id>', methods=['GET', 'POST'])
 def home_page(person_id):
-    person = people_api.get_person_by_id(person_id)
-    favourite = preferences_api.get_favourite(person_id)
-    active_round = rounds_api.get_active_round()
-    if person:
-        return render_template('home.html', person=person, favourite=favourite, active_round=active_round)
-    else:
-        return redirect("/")
+    if request.method == 'GET':
+        person = people_api.get_person_by_id(person_id)
+        favourite = preferences_api.get_favourite(person_id)
+        if favourite:
+            favourite = favourite.title()
+        if person:
+            return render_template('home.html', person=person, favourite=favourite)
+        else:
+            return redirect("/")
+
+    elif request.method == "POST":
+        button_value = request.form['submit_button']
+        if button_value == 'End the round':
+            round_ = rounds_api.get_active_round()
+            rounds_api.stop_round()
+            return redirect(f'/round-orders/{round_.id}')
+        elif button_value == 'Start a round':
+            rounds_api.add_round({'owner_id':person_id})
+            return redirect(f"/home/{person_id}")
+        elif button_value == 'Edit drink preference':
+            return redirect(f"/preference/{person_id}")
+        elif 'Join' in button_value:
+            rounds_api.add_order_to_round({'person_id':person_id})
+            return redirect(f'/home/{person_id}/joined-round')
 
 @app.route('/register/<first_name>/<surname>/<slack_id>', methods=['GET','POST'])
 def register_page(first_name, surname, slack_id):
@@ -52,9 +105,37 @@ def register_page(first_name, surname, slack_id):
         elif request.form['submit_button'] == 'Cancel':
             return redirect("/")
 
-@app.route('/helloworld')
-def hello_world():
-    return redirect("/people")
+@app.route('/round-orders/<round_id>')
+def round_orders_page(round_id):
+    round_ = rounds_api.get_round(round_id)
+    orders = []
+    for order in round_.orders:
+        order_person = people_api.get_person_by_id(str(order.person_id))
+        orders.append({'drink_name':order.drink_name.capitalize(), 'person_name':order_person.name.title()})
+    return render_template('orders.html',orders=orders,person_id=round_.owner_id)
+
+@app.route('/home/<person_id>/joined-round')
+def joined_round_page(person_id):
+    return render_template('join-confirmation.html',person_id=person_id)
+
+@app.route('/preference/<person_id>', methods=['GET','POST'])
+def edit_preference(person_id):
+    if request.method == 'GET':
+        return render_template('preference.html')
+    else:
+        if request.form['submit_button'] == 'Confirm Drink Choice':
+            drink_name = request.form.get("drink_form_entry").lower()
+            valid_drink = check_input(drink_name, valid_string)
+            if valid_drink:
+                drink = drinks_api.get_drink(drink_name)
+                if not drink:
+                    drinks_api.add_drink({"drink_name":drink_name})
+                preferences_api.change_favourite({"person_id":person_id,"drink_name":drink_name})
+                return redirect(f'/home/{person_id}')
+            else:
+                return('',204)
+        else:
+            return redirect(f'/home/{person_id}')
 
 @app.route('/people')
 def get_people():
@@ -132,12 +213,15 @@ def start_round(person_id):
 
 @app.route('/end-round', methods=['POST'])
 def end_round():
+    round_ = rounds_api.get_active_round()
     rounds_api.stop_round()
+    return redirect(f'/round-orders/{round_.id}')
 
 @app.route('/join-round/<person_id>', methods=['POST'])
 def join_round(person_id):
     rounds_api.add_order_to_round({'person_id':person_id})
+    return redirect(f'/home/{person_id}/joined-round')
 
 
 if __name__ == "__main__":
-    app.run(host='localhost', port=8000)
+    app.run(host='0.0.0.0', port=8000)

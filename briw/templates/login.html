@@ -4,10 +4,10 @@
 
 {% block content %}
     <div>
-        <form class="form-container" id="login-person-form"  method="post">
-            <p id="invalid-input-error" class="error-text">Invalid input. Your entry must contain at least one letter, be no longer than 100 characters, and it cannot contain any of: ' " ; / \.</p>
+        <form class="form-container" id="login-person-form" method="POST"">
+            <p id="invalid-input-error" class="error-text">Invalid input. Your entries cannot be longer than 100 characters, your names must contain only letters, and your slackID must contain at least one letter and cannot include the following characters: /\"';</p>
             <div class="form-input-container">
-                <input class="form-input" id="first_name_input" type="text" name="first_name" placeholder="First name" required/>
+                <input class="form-input" id="first_name_input" type="text" name="first_name" placeholder="First name(s)" required/>
                 <label class="form-input-length-label" for="first_name_input" id="first_name_input_length"></label>
             </div>
             <div class="form-input-container">
@@ -22,34 +22,60 @@
         </form>
     </div>
     <script>
-        function validString(string) {
-            if (!isNaN(string) || string.includes('/') || string.includes('\\') || string.includes('"') || string.includes('\'') || string.includes(';') || string.length > 100) {
+        function validSlackID(string) {
+            if (!isNaN(string) || string.includes('/') || string.includes('\\') || string.includes('"') || string.includes('\'') || string.includes(';')) {
                 return false
             } else {
                 return true
             }
         }
-        function inputValidation(event) {
-            const first_name = document.getElementById('first_name_input').value
-            const surname = document.getElementById('surname_input').value
-            const slack_id = document.getElementById('slack_id_input').value
-            strings = {first_name_input:first_name, surname_input:surname, slack_id_input:slack_id}
-            let valid = true
-            Object.keys(strings).forEach(function(id) {
-                let element = document.getElementById(id)
-                let label = document.getElementById(id+'_length')
-                if (validString(strings[id]) == false) {
-                    valid = false
-                    element.classList.add('error-input')
-                    if (strings[id].length > 100) {
-                        label.style.visibility = 'visible'
-                        label.innerHTML = "("+strings[id].length+")"
-                    } else {
-                        label.style.visibility = 'hidden'
-                    }
+        function isLetter(c) {
+            return c.toLowerCase() != c.toUpperCase()
+        }
+        function validName(name) {
+            valid = true
+            for (character of name) {
+                valid = isLetter(character) || character == '-'
+            }
+            return valid
+        }
+        function checkInput(input, element_id, validation_fn) {
+            let element = document.getElementById(element_id)
+            let label = document.getElementById(element_id+'_length')
+            let len = input.length
+            if (validation_fn(input) == false || len > 100) {
+                element.classList.add('error-input')
+                if (len > 100) {
+                    label.style.visibility = 'visible'
+                    label.innerHTML = "("+len+")"
                 } else {
-                    element.classList.remove('error-input')
                     label.style.visibility = 'hidden'
+                }
+                return false
+            } else {
+                element.classList.remove('error-input')
+                label.style.visibility = 'hidden'
+                return true
+            }
+        }
+        function inputValidation(event) {
+            const surname = document.getElementById('surname_input').value
+            const first_name = document.getElementById('first_name_input').value
+            const slack_id = document.getElementById('slack_id_input').value
+            strings = [
+                {string: first_name, id: 'first_name_input', type: 'name'},
+                {string: surname, id: 'surname_input', type: 'name'},
+                {string: slack_id, id: 'slack_id_input', type: 'slackID'}
+            ]
+            let valid = true
+            strings.forEach(function(input) {
+                let validation_fn = validSlackID
+                if (input.type == 'name') {
+                    validation_fn = validName
+                }
+                is_valid = checkInput(input.string, input.id, validation_fn)
+                if (is_valid == false) {
+                    valid = false
                 }
             });
             if (valid == false) {
