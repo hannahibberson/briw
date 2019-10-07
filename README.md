@@ -1,17 +1,19 @@
 # briw
-Tea and coffee and other drinks hopefully.
+Tea and coffee and other drinks.
 
-Please note: The `briw` directory is a work-in-progress and does not currently run. Details below. 
+Please note: This is a mass of code, most of which is no longer of any use. Proceed with caution!
 
-### TO RUN THE PROGRAM
-In the root directory run:```python3 fav_drinks.py```
+### To run the program
+In the root directory run:```python3 flask_handler.py```
 
-You will be presented with a menu from which you can add people, choose drinks, set favourites - all that fun stuff!
+Navigate to localhost:8000 and you'll be greeted with a login page. Once you've logged in (and possibly registered), you will be able to add your favourite drink, then start new rounds with your friends and colleagues.
 
-### CONTRIBUTING
-Please contribute, it's fun! Just submit a pull-request and I'll have a look. Just __beware__ if you're trying to mess with the `briw` directory (more details below).
+### Contributing
+Please contribute, it's fun! Just submit a pull-request and I'll have a look. Just __beware__, everything is a bit crazy and unorganised.
 
-### THE NOT-SO-SECRET BRIW DIRECTORY
-I have slowly been extracting my functionality into different modules, and trying to OOP-ify my data, but it's all a bit of a mess right now! 
+### How it works
+I have used flask for this project, and all of this logic is held in `flask_handler.py`. It handles the GET and POST requests to the different pages in the site.
 
-If you would like to edit some files in here, that would be great, just don't expect anything else to run properly alongside them!
+From here, it calls out to the `*_api.py` files, which manage the logic for each of the key functions of the site.
+
+The API files manage database accessing, so that your people, drinks, and rounds can be stored in a database. The `database_*.py` files in the `helpers` directory are where you can find the database logic.
