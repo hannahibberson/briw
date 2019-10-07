@@ -53,6 +53,34 @@ p.header-element {
 .form-input-container {
     height:45px;
 }
+.autocomplete-input {
+    position: relative;
+}
+
+.autocomplete-items {
+    position: absolute;
+    border-radius: 0px 0px 10px 10px;
+    border-top: none;
+    z-index: 99;
+    top: 100%;
+    left: 15%;
+    right: 15%;
+    box-shadow: 0px 5px 8px var(--inf-black);
+    padding: 10px 0px;
+    background-color: white;
+  }
+  .autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+  }
+  .autocomplete-items div:hover {
+    background-color: var(--inf-orange);
+    color: white;
+  }
+  .autocomplete-active {
+    background-color: var(--inf-orange) !important;
+    color: white;
+  }
 
 .form-container .form-input {
     min-width: 70%;

@@ -4,9 +4,9 @@
 
 {% block content %}
     <div>
-        <form class="form-container" id="register-form"  method="post">
+        <form class="form-container" id="register-form"  autocomplete="off" method="post">
             <p id="invalid-input-error" class="error-text">Invalid input. The drink name cannot be longer than 100 characters, and must contain only letters.</p>
-            <div class="form-input-container">
+            <div class="form-input-container autocomplete-input">
                 <input class="form-input" id="drink_form_entry" name="drink_form_entry" type="text" placeholder="Drink name"/>
                 <label class="form-input-length-label" for="drink_form_entry" id="drink_form_entry_length"></label>
             </div>
@@ -47,6 +47,90 @@
             }
         }
         document.getElementById('drink_form_submit').addEventListener('click',checkInput)
+        function autocomplete(input) {
+            function addActive(arr) {
+                if (!arr) return false;
+                removeActive(arr);
+                if (currentFocus >= arr.length) currentFocus = 0;
+                if (currentFocus < 0) currentFocus = (arr.length - 1);
+                arr[currentFocus].classList.add("autocomplete-active");
+            }
+            function removeActive(arr) {
+                for (x of arr) {
+                    x.classList.remove("autocomplete-active");
+                }
+            }
+            function closeAllLists(element) {
+                var items = document.getElementsByClassName("autocomplete-items");
+                for (x of items) {
+                    if (element != x && element != input) {
+                        x.parentNode.removeChild(x);
+                    }
+                }
+            }
+            var currentFocus;
+            input.addEventListener("input", function(e) {
+                var a, b, i, val = this.value;
+                closeAllLists();
+                if (!val) { return false;}
+                currentFocus = -1;
+                a = document.createElement("DIV");
+                a.setAttribute("id", this.id + "autocomplete-list");
+                a.setAttribute("class", "autocomplete-items");
+                this.parentNode.appendChild(a);
+                drinks = '{{drinks|safe}}'.split(', ')
+                for (i=0; i<drinks.length;i++) {
+                    drink = []
+                    for (char of drinks[i]) {
+                        if (char != '[' && char != ']' && char != '"') {
+                            drink.push(char)
+                        }
+                    }
+                    drink = drink.join("")
+                    drinks[i] = drink
+                }
+                for (drink of drinks ){
+                    if (drink.toLowerCase().includes(val.toLowerCase())) {
+                        b = document.createElement("DIV");
+                        b.innerHTML = drink
+                        b.innerHTML += "<input type='hidden' value='" + drink + "'>";
+                        b.addEventListener("click", function(e) {
+                            input.value = this.getElementsByTagName("input")[0].value;
+                            closeAllLists();
+                        });
+                        a.appendChild(b);
+                    }
+                    if (a.childElementCount == 0) {
+                        a.style.visibility = 'hidden'
+                    } else {
+                        a.style.visibility = 'visible'
+                    }
+                }
+            })
+            input.addEventListener("keydown", function(e) {
+                var x = document.getElementById(this.id + "autocomplete-list");
+                if (x) x = x.getElementsByTagName("div");
+                if (e.keyCode == 40) {
+                    //If the arrow DOWN key is pressed,
+                    currentFocus++;
+                    addActive(x);
+                } else if (e.keyCode == 38) { 
+                    //If the arrow UP key is pressed
+                    currentFocus--;
+                    addActive(x);
+                } else if (e.keyCode == 13) {
+                    /*If the ENTER key is pressed, prevent the form from being submitted, and submit active item instead*/
+                    e.preventDefault();
+                    if (currentFocus > -1) {
+                        if (x) x[currentFocus].click();
+                    }
+                }
+            });
+            document.addEventListener("click", function (e) {
+                closeAllLists(e.target);
+            });
+        }
+        autocomplete(document.getElementById("drink_form_entry"));
     </script>
 
 {% endblock %}

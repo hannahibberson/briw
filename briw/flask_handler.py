@@ -1,5 +1,7 @@
 from flask import Flask, jsonify, render_template, request, redirect, url_for
 
+import json
+
 from src.helpers.person_class import Person
 import people_api, drinks_api, preferences_api, rounds_api
 
@@ -121,7 +123,9 @@ def joined_round_page(person_id):
 @app.route('/preference/<person_id>', methods=['GET','POST'])
 def edit_preference(person_id):
     if request.method == 'GET':
-        return render_template('preference.html')
+        drinks = drinks_api.get_drinks()
+        drink_names = [drink.name for drink in drinks]
+        return render_template('preference.html', drinks=json.dumps(drink_names))
     else:
         if request.form['submit_button'] == 'Confirm Drink Choice':
             drink_name = request.form.get("drink_form_entry").lower()
