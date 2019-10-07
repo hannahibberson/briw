@@ -6,7 +6,7 @@ Please note: This is a mass of code, most of which is no longer of any use. Proc
 ### To run the program
 In the root directory run:
 
-```python3 flask_handler.py```
+```python3 briw/flask_handler.py```
 
 Navigate to `localhost:8000` and you'll be greeted with a login page. Once you've logged in (and possibly registered), you will be able to add your favourite drink, then start new rounds with your friends and colleagues.
 
