@@ -4,6 +4,14 @@ Tea and coffee and other drinks.
 Please note: This is a mass of code, most of which is no longer of any use. Proceed with caution!
 
 ### To run the program
+You will need to create the file `_db_connect.py` within the `helpers` directory, and fill in the necessary information in the following format:
+
+```
+_host = <host>
+_username = <username>
+_password = <password>
+_database = <database-name>
+```
 In the root directory run:
 
 ```python3 briw/flask_handler.py```
