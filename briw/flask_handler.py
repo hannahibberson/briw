@@ -110,10 +110,16 @@ def register_page(first_name, surname, slack_id):
 @app.route('/round-orders/<round_id>')
 def round_orders_page(round_id):
     round_ = rounds_api.get_round(round_id)
-    orders = []
+    orders = {}
     for order in round_.orders:
+        drink = order.drink_name
+        if not drink in orders.keys():
+            orders[drink] = {}
+            orders[drink]['people'] = []
+            orders[drink]['count'] = 0
         order_person = people_api.get_person_by_id(str(order.person_id))
-        orders.append({'drink_name':order.drink_name.capitalize(), 'person_name':order_person.name.title()})
+        orders[drink]['people'].append(order_person.name)
+        orders[drink]['count'] += 1
     return render_template('orders.html',orders=orders,person_id=round_.owner_id)
 
 @app.route('/home/<person_id>/joined-round')

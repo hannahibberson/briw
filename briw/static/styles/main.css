@@ -163,16 +163,24 @@ p.header-element {
     font-weight: 800;
 }
 
-.home-order-data {
+.order-data {
     margin: 10px;
     padding: 10px;
     border: 2px solid var(--inf-orange-lighter);
     border-radius: 5px;
+    display: inline-block;
 }
 
-.home-order-data #order-list-home {
+.order-data #order-list-home {
     list-style: none;
     padding-left: 0;
+}
+
+.order-data-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
 body a, body a:visited {

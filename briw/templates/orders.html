@@ -4,12 +4,17 @@
 
 {% block content %}
     <div>
-        <p>Final order list:</p>
-        <ul id="order-list">
-            {% for order in orders %}
-                <li>{{order.drink_name}} for {{order.person_name}}</li>
+        <h3>Final order list:</h3>
+        <div id="order-list" class="order-data-container"> 
+            {% for drink_name, values in orders.items() %}
+                <div class="order-data">
+                    <p><strong>{{ drink_name.title() }}</strong> (x{{ values.count }})</p>
+                    {% for person in values.people %}
+                        <p>{{ person.title() }}</p>
+                    {% endfor %}
+                </div>
             {% endfor %}
-        </ul>
+        </div>
         <br/>
         <a href="/home/{{person_id}}">Return home</a>
     </div>

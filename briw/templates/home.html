@@ -8,7 +8,7 @@
         <form id="home-options-form" class="form-container" method="POST">
             {% if favourite %}
                 <p>Your drink of choice is: {{ favourite }}</p>
-                <div id="home-order-data" class="home-order-data">
+                <div id="home-order-data" class="order-data">
                     <p><b>Current orders:</b></p>
                     <ul id="order-list-home"></ul>
                     <input class="home-option-submit form-button" id="home-option-round-end" type="submit" name="submit_button" value="End the round"/>
@@ -67,28 +67,39 @@
                         preferenceOption.disabled = false
                     }
                     enableDisableOptions('join','start')
-                    orderList = document.getElementById('order-list-home')
-                    nodes = []
-                    for (order of orders) {
-                        drink = capitalize(order.drink_name)
-                        li = '<li>'+drink+'</li>'
-                        nodes.push(li)
+                    if (orders) {
+                        orderList = document.getElementById('order-list-home')
+                        orderCounts = {}
+                        for (order of orders) {
+                            drink = order.drink_name
+                            if (!orderCounts.hasOwnProperty(drink)) {
+                                orderCounts[drink] = 0
+                            }
+                            orderCounts[drink] += 1
+                        }
+                        nodes = []
+                        for (let [drink, count] of Object.entries(orderCounts)) {
+                            li = '<li>'+capitalize(drink)+' x'+count+'</li>'
+                            nodes.push(li)
+                        }
+                        nodesString = nodes.join('')
+                        orderList.innerHTML = nodesString
                     }
-                    nodesString = nodes.join('')
-                    orderList.innerHTML = nodesString
                     xhr.open("GET", '/person?id='+owner_id, false)
                     xhr.onload = function (event) {
                         owner = JSON.parse(xhr.responseText)
-                        for (order of orders) {
-                            if (order.person_id == '{{ person.person_id }}') {
-                                join_option = document.getElementById('home-option-round-join')
-                                join_option.disabled = true
-                                join_option.classList.add('form-disabled')
-                                join_button_text = 'You\'ve joined '+capitalize(owner.name)+'\'s round'
-                            } else {
-                                join_button_text = 'Join '+capitalize(owner.name)+'\'s round'
+                        if (orders) {
+                            for (order of orders) {
+                                if (order.person_id == '{{ person.person_id }}') {
+                                    join_option = document.getElementById('home-option-round-join')
+                                    join_option.disabled = true
+                                    join_option.classList.add('form-disabled')
+                                    join_button_text = 'You\'ve joined '+capitalize(owner.name)+'\'s round'
+                                } else {
+                                    join_button_text = 'Join '+capitalize(owner.name)+'\'s round'
+                                }
+                                document.getElementById('home-option-round-join').setAttribute('value', join_button_text)
                             }
-                            document.getElementById('home-option-round-join').setAttribute('value', join_button_text)
                         }
                     }
                     xhr.send(null)
