@@ -2,8 +2,8 @@ import briw.src.database_base as db
 from briw.src.drink_class import Drink
 
 def _insert_drink_row(drink: Drink):
-    values_string = f'("{drink.name}","{drink.type}")'
-    query = "INSERT INTO drinks (drink_name,drink_type) VALUES" + values_string
+    values_string = f"('{drink.name}','{drink.type}')"
+    query = "INSERT INTO drinks (drink_name,drink_type) VALUES " + values_string
     db._insert_row(query)
 
 def _parse_drink_row(row):
