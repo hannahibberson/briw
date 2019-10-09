@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, render_template, request, redirect, url_for
 
 import json
+import requests
 
 from briw.src.person_class import Person
 from briw.src import people_api, drinks_api, preferences_api, rounds_api
@@ -30,7 +31,20 @@ def check_input (string, validation_fn):
     else:
         return True
 
-### GETS ###
+def send_to_slack (message: str, colour: str):
+    print(message)
+    payload = {
+        "channel": "#academy-19-test", 
+        "username": "hannahs-coffee-bot", 
+        "attachments": [{
+            "fallback": message,
+            "color": colour,
+            "text": message
+        }],
+        "icon_emoji": ":coffee:"
+    }
+    url = 'https://hooks.slack.com/services/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'
+    r = requests.post(url = url, data = json.dumps(payload))
 
 @app.route('/', methods=['GET','POST'])
 def login_page():
@@ -71,7 +85,7 @@ def invalid_home_page():
 @app.route('/home/<person_id>', methods=['GET', 'POST'])
 def home_page(person_id):
     if request.method == 'GET':
-        person = people_api.get_person_by_id(person_id)
+        person = people_api.get_person_by_id(int(person_id))
         favourite = preferences_api.get_favourite(person_id)
         if favourite:
             favourite = favourite.title()
@@ -85,14 +99,33 @@ def home_page(person_id):
         if button_value == 'End the round':
             round_ = rounds_api.get_active_round()
             rounds_api.stop_round()
-            return redirect(f'/round-orders/{round_.id}')
+            owner = people_api.get_person_by_id(round_.owner_id)
+            orders = {}
+            for order in round_.orders:
+                drink = order.drink_name
+                if drink not in orders.keys():
+                    orders[drink] = 0
+                orders [drink] += 1
+            message = f'{owner.name.title()} has ended their round. \nThe final orders are:\n'
+            for drink,count in orders.items():
+                message += f'- {drink.title()} (x{count})\n'
+            message += f"See the full order here: http://10.0.1.44:8000/round-orders/{round_.id}"
+            send_to_slack(message, '#8378e3')
+            return redirect(f'/{person_id}/round-orders/{round_.id}')
         elif button_value == 'Start a round':
             rounds_api.add_round({'owner_id':person_id})
+            person = people_api.get_person_by_id(person_id)
+            # <!here> to do @here
+            send_to_slack(f'A round has been started by {person.name.title()}.\nJoin the round here: http://10.0.1.44:8000', 'good')
             return redirect(f"/home/{person_id}")
         elif button_value == 'Edit drink preference':
             return redirect(f"/preference/{person_id}")
         elif 'Join' in button_value:
             rounds_api.add_order_to_round({'person_id':person_id})
+            person = people_api.get_person_by_id(person_id)
+            round_ = rounds_api.get_active_round()
+            owner = people_api.get_person_by_id(round_.owner_id)
+            send_to_slack(f'{person.name.title()} has joined {owner.name.title()}\'s round.', '#d14409')
             return redirect(f'/home/{person_id}/joined-round')
 
 @app.route('/register/<first_name>/<surname>/<slack_id>', methods=['GET','POST'])
@@ -107,8 +140,7 @@ def register_page(first_name, surname, slack_id):
         elif request.form['submit_button'] == 'Cancel':
             return redirect("/")
 
-@app.route('/round-orders/<round_id>')
-def round_orders_page(round_id):
+def get_orders(round_id):
     round_ = rounds_api.get_round(round_id)
     orders = {}
     for order in round_.orders:
@@ -117,10 +149,20 @@ def round_orders_page(round_id):
             orders[drink] = {}
             orders[drink]['people'] = []
             orders[drink]['count'] = 0
-        order_person = people_api.get_person_by_id(str(order.person_id))
+        order_person = people_api.get_person_by_id(order.person_id)
         orders[drink]['people'].append(order_person.name)
         orders[drink]['count'] += 1
-    return render_template('orders.html',orders=orders,person_id=round_.owner_id)
+    return orders
+
+@app.route('/<person_id>/round-orders/<round_id>')
+def round_orders_page_for_owner(person_id,round_id):
+    orders = get_orders(round_id)
+    return render_template('orders.html',orders=orders,person_id=person_id)
+
+@app.route('/round-orders/<round_id>')
+def round_orders_page(round_id):
+    orders = get_orders(round_id)
+    return render_template('orders.html',orders=orders,person_id='0')
 
 @app.route('/home/<person_id>/joined-round')
 def joined_round_page(person_id):
@@ -213,9 +255,14 @@ def get_rounds():
 
 @app.route('/active-round')
 def get_active_round():
-    round_ = rounds_api.get_active_round()
-    round_.orders = [o.__dict__ for o in round_.orders]
-    return jsonify(round_.__dict__)
+    response = {'error':'no round active'}
+    try:
+        round_ = rounds_api.get_active_round()
+        round_.orders = [o.__dict__ for o in round_.orders]
+        response = round_.__dict__
+    except:
+        print('no round found')
+    return jsonify(response)
 
 @app.route('/start-round/<person_id>', methods=['POST'])
 def start_round(person_id):

@@ -11,11 +11,8 @@ def parse_people_query(query):
     else:
         return get_person_by_names(query)
 
-def get_person_by_id (person_id):
-    if len(person_id) > 0 and person_id.isdigit():
-        return person_db.get_person_by_id(person_id)
-    else:
-        raise Exception("Not a valid number.")
+def get_person_by_id (person_id:int):
+    return person_db.get_person_by_id(person_id)
 
 def get_person_by_names(query_string):
     arguments = query_string.split("&")

@@ -50,7 +50,7 @@
             xhr.open("GET", '/active-round', false)
             xhr.onload = function(event) {
                 let round = xhr.responseText
-                if (round.includes('active')) {
+                if (!round.slice(2,7) == "error") {
                     round = JSON.parse(round)
                     let owner_id = round.owner_id
                     let orders = round.orders
