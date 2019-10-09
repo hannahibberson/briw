@@ -53,12 +53,12 @@ An example coverage report:
 Name                              Stmts   Miss  Cover   Missing
 ---------------------------------------------------------------
 briw/src/database_base.py            24      0   100%
-briw/src/database_drink.py           33     33     0%   1-39
+briw/src/database_drink.py           33      5    85%   22-23, 34-36
 briw/src/database_order.py           30     30     0%   1-34
-briw/src/database_person.py          46     25    46%   5-8, 25-26, 30-39, 42-51, 54
+briw/src/database_person.py          46      8    83%   25-26, 37-39, 49-51
 briw/src/database_preference.py      37     37     0%   1-44
 briw/src/database_round.py           46     46     0%   1-54
-briw/src/drink_class.py               4      4     0%   1-4
+briw/src/drink_class.py               4      0   100%
 briw/src/drinks_api.py               11     11     0%   1-15
 briw/src/json_helper.py               7      7     0%   1-8
 briw/src/order_class.py               6      6     0%   1-6
@@ -69,5 +69,5 @@ briw/src/round_class.py               6      6     0%   1-6
 briw/src/round_hander.py             15     15     0%   1-20
 briw/src/rounds_api.py               22     22     0%   1-28
 ---------------------------------------------------------------
-TOTAL                               327    275    16%
+TOTAL                               327    226    31%
 ```
