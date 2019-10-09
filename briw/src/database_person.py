@@ -1,5 +1,5 @@
-import src.helpers.database_base as db
-from src.helpers.person_class import Person
+import briw.src.database_base as db
+from briw.src.person_class import Person
 
 def _insert_person_row(person: Person):
     values_string = f"('{person.first_name}','{person.surname}','{person.slack_id}')"

@@ -1,4 +1,4 @@
-import src.helpers.database_base as db
+import briw.src.database_base as db
 
 def _insert_preference_row(person_id: int, drink_name: str):
     values_string = f'({person_id},"{drink_name}")'

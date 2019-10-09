@@ -1,8 +1,8 @@
-import src.helpers.round_hander as handler
-import src.helpers.database_order as order_db
-import src.helpers.database_preference as pref_db
-from src.helpers.round_class import Round
-from src.helpers.order_class import Order
+import briw.src.round_hander as handler
+import briw.src.database_order as order_db
+import briw.src.database_preference as pref_db
+from briw.src.round_class import Round
+from briw.src.order_class import Order
 
 def get_rounds():
     return handler.get_rounds()

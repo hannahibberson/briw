@@ -1,5 +1,5 @@
 import pymysql
-import src.helpers._db_connect as db
+import briw.src._db_connect as db
 from os import environ
 
 def _connect_to_database():

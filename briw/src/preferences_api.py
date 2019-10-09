@@ -1,4 +1,4 @@
-import src.helpers.database_preference as pref_db
+import briw.src.database_preference as pref_db
 
 def get_favourites():
     return pref_db.get_preferences()

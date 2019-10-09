@@ -1,5 +1,5 @@
-import src.helpers.database_base as db
-from src.helpers.order_class import Order
+import briw.src.database_base as db
+from briw.src.order_class import Order
 
 def insert_order_row(round_id: int, person_id: int, drink_name: str):
     query = f"INSERT INTO orders (round_id,person_id,drink_name) VALUES ({round_id},{person_id},\"{drink_name}\")"

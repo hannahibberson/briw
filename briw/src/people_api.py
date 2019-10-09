@@ -1,5 +1,5 @@
-import src.helpers.database_person as person_db
-from src.helpers.person_class import Person
+import briw.src.database_person as person_db
+from briw.src.person_class import Person
 
 def get_people():
     return person_db.get_people()

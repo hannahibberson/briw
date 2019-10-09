@@ -1,6 +1,6 @@
-import src.helpers.database_base as db
-import src.helpers.database_order as order_db
-from src.helpers.round_class import Round
+import briw.src.database_base as db
+import briw.src.database_order as order_db
+from briw.src.round_class import Round
 
 def insert_round_row(owner_id: int):
     query = f"INSERT INTO rounds (owner_id,active) VALUES ({owner_id},1)"

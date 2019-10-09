@@ -1,8 +1,8 @@
-from json_helper import MyEncoder
+from briw.json_helper import MyEncoder
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import json
 
-import people_api, drinks_api, rounds_api, preferences_api
+from briw import people_api, drinks_api, rounds_api, preferences_api
 
 class PersonHandler(BaseHTTPRequestHandler):
     def _set_headers(self, code):

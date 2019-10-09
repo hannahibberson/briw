@@ -1,5 +1,5 @@
-import src.helpers.database_drink as drink_db
-from src.helpers.drink_class import Drink
+import briw.src.database_drink as drink_db
+from briw.src.drink_class import Drink
 
 def get_drinks():
     return drink_db.get_drinks()

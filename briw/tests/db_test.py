@@ -1,5 +1,5 @@
 import unittest
-import briw.src.helpers.database as db
+import briw.src.database_base as db
 
 class Test_Database_Connections(unittest.TestCase):
     def test_connecting_to_database_does_not_cause_exception(self):

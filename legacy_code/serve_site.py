@@ -1,7 +1,7 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
-import rounds_api, people_api, drinks_api, preferences_api
-import src.helpers.database_order as order_db
+from briw import rounds_api, people_api, drinks_api, preferences_api
+import briw.src.helpers.database_order as order_db
 
 def render_drinks(drinks):
     drinks_html = ""

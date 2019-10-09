@@ -1,5 +1,5 @@
-import src.helpers.database_base as db
-from src.helpers.drink_class import Drink
+import briw.src.database_base as db
+from briw.src.drink_class import Drink
 
 def _insert_drink_row(drink: Drink):
     values_string = f'("{drink.name}","{drink.type}")'

@@ -2,8 +2,8 @@ from flask import Flask, jsonify, render_template, request, redirect, url_for
 
 import json
 
-from src.helpers.person_class import Person
-import people_api, drinks_api, preferences_api, rounds_api
+from briw.src.person_class import Person
+from briw.src import people_api, drinks_api, preferences_api, rounds_api
 
 app = Flask(__name__)
 
