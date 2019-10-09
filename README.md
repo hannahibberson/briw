@@ -1,4 +1,4 @@
-# briw
+# BrIW
 Tea and coffee and other drinks.
 
 Please note: This is a mass of code, most of which is no longer of any use. Proceed with caution!
