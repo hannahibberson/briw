@@ -12,6 +12,13 @@ _username = <username>
 _password = <password>
 _database = <database-name>
 ```
+
+You will also need to create `_slack_webhook.py` in the `briw/src` directory, and fill in the url field with the slack webhook:
+
+```
+url = '<slack-url'
+```
+
 In the root directory run:
 
 ```python3 flask_handler.py```
