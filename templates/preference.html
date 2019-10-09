@@ -4,6 +4,7 @@
 
 {% block content %}
     <div>
+        <p><strong>Please note:</strong> if you have joined a round before changing your preference, your preference will not be changed for that round.</p>
         <form class="form-container" id="register-form"  autocomplete="off" method="post">
             <p id="invalid-input-error" class="error-text">Invalid input. The drink name cannot be longer than 100 characters, and must contain only letters.</p>
             <div class="form-input-container autocomplete-input">
@@ -13,6 +14,7 @@
             <input class="form-button form-cancel" id="drink_form_cancel" name="submit_button" type="submit" value="Cancel"/>
             <input class="form-button" id="drink_form_submit" name="submit_button" type="submit" value="Confirm Drink Choice"/>
         </form>
+        <br>
     </div>
     <script>
         function isLetter(c) {
