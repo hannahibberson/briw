@@ -1,5 +1,7 @@
 from flask import Flask, jsonify, render_template, request, redirect, url_for
 
+from briw.src._slack_webhook import url as slack_url
+
 import json
 import requests
 
@@ -35,16 +37,15 @@ def send_to_slack (message: str, colour: str):
     print(message)
     payload = {
         "channel": "#academy-19-test", 
-        "username": "hannahs-coffee-bot", 
+        "username": "BrIW bot (Hannah)", 
         "attachments": [{
             "fallback": message,
             "color": colour,
             "text": message
         }],
-        "icon_emoji": ":coffee:"
+        "icon_emoji": ":beers:"
     }
-    url = 'https://hooks.slack.com/services/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'
-    r = requests.post(url = url, data = json.dumps(payload))
+    r = requests.post(url = slack_url, data = json.dumps(payload))
 
 @app.route('/', methods=['GET','POST'])
 def login_page():

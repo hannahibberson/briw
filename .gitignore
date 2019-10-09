@@ -4,7 +4,8 @@ briw/src/_store
 *.txt
 
 # My secret stuff #
-briw/src/_db_connect.py
+**/_db_connect.py
+**/_slack_webhook.py
 
 # Random files/directories #
 .DS_Store
