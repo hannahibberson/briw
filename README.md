@@ -21,9 +21,10 @@ url = '<slack-url'
 
 In the root directory run:
 
-```pip3 install -r requirements.txt```
-
-```python3 flask_handler.py```
+```
+$ pip3 install -r requirements.txt
+$ python3 flask_handler.py
+```
 
 Navigate to `localhost:8000` and you'll be greeted with a login page. Once you've logged in (and possibly registered), you will be able to add your favourite drink, then start new rounds with your friends and colleagues.
 
@@ -43,7 +44,6 @@ The tests use unittest, but can also be run with pytest. We can also get the cov
 
 ```
 $ coverage run --source=briw/src --omit=briw/src/__*,briw/src/_* -m pytest
-
 $ coverage report -m
 ```
 
